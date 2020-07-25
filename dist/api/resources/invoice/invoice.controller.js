@@ -8,6 +8,10 @@ var _regenerator = require('babel-runtime/regenerator');
 
 var _regenerator2 = _interopRequireDefault(_regenerator);
 
+var _defineProperty2 = require('babel-runtime/helpers/defineProperty');
+
+var _defineProperty3 = _interopRequireDefault(_defineProperty2);
+
 var _asyncToGenerator2 = require('babel-runtime/helpers/asyncToGenerator');
 
 var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
@@ -27,39 +31,57 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 exports.default = {
   findAll: function () {
     var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(req, res) {
-      var invoice;
+      var _req$query, _req$query$page, page, _req$query$perPage, perPage, filter, sortField, sortDir, options, query, invoice;
+
       return _regenerator2.default.wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
               _context.prev = 0;
-              _context.next = 3;
-              return _invoice4.default.find();
+              _req$query = req.query, _req$query$page = _req$query.page, page = _req$query$page === undefined ? 1 : _req$query$page, _req$query$perPage = _req$query.perPage, perPage = _req$query$perPage === undefined ? 10 : _req$query$perPage, filter = _req$query.filter, sortField = _req$query.sortField, sortDir = _req$query.sortDir;
+              options = {
+                page: parseInt(page, 10),
+                limit: parseInt(perPage, 10),
+                populate: 'Client'
+              };
+              query = {};
 
-            case 3:
+              if (filter) {
+                query.item = {
+                  $regex: filter,
+                  $options: 'i'
+                };
+              }
+              if (sortField && sortDir) {
+                options.sort = (0, _defineProperty3.default)({}, sortField, sortDir);
+              }
+              _context.next = 8;
+              return _invoice4.default.paginate(query, options);
+
+            case 8:
               invoice = _context.sent;
 
               if (!invoice) {
-                _context.next = 6;
+                _context.next = 11;
                 break;
               }
 
               return _context.abrupt('return', res.status(_httpStatusCodes.OK).json(invoice));
 
-            case 6:
+            case 11:
               return _context.abrupt('return', res.status(_httpStatusCodes.NOT_FOUND).json({ msg: 'could not find any invoice' }));
 
-            case 9:
-              _context.prev = 9;
+            case 14:
+              _context.prev = 14;
               _context.t0 = _context['catch'](0);
               return _context.abrupt('return', res.status(_httpStatusCodes.INTERNAL_SERVER_ERROR).json(_context.t0));
 
-            case 12:
+            case 17:
             case 'end':
               return _context.stop();
           }
         }
-      }, _callee, this, [[0, 9]]);
+      }, _callee, this, [[0, 14]]);
     }));
 
     function findAll(_x, _x2) {
@@ -222,33 +244,34 @@ exports.default = {
               return _context5.abrupt('return', res.status(_httpStatusCodes.BAD_REQUEST).json(error));
 
             case 4:
-              _context5.next = 6;
+              console.log(value);
+              _context5.next = 7;
               return _invoice4.default.findByIdAndUpdate(req.params.id, value, { new: true });
 
-            case 6:
+            case 7:
               invoice = _context5.sent;
 
               if (!invoice) {
-                _context5.next = 9;
+                _context5.next = 10;
                 break;
               }
 
               return _context5.abrupt('return', res.status(_httpStatusCodes.OK).json(invoice));
 
-            case 9:
+            case 10:
               return _context5.abrupt('return', res.status(_httpStatusCodes.BAD_REQUEST).json({ msg: 'could not find any invoice' }));
 
-            case 12:
-              _context5.prev = 12;
+            case 13:
+              _context5.prev = 13;
               _context5.t0 = _context5['catch'](0);
               return _context5.abrupt('return', res.status(_httpStatusCodes.INTERNAL_SERVER_ERROR).json(_context5.t0));
 
-            case 15:
+            case 16:
             case 'end':
               return _context5.stop();
           }
         }
-      }, _callee5, this, [[0, 12]]);
+      }, _callee5, this, [[0, 13]]);
     }));
 
     function updateInvoice(_x9, _x10) {

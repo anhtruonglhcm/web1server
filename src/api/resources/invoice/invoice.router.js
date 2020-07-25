@@ -8,4 +8,3 @@ invoiceRouter
   .delete(invoiceController.deleteInvoice)
   .put(invoiceController.updateInvoice)
   .get(invoiceController.findOne);
-invoiceRouter.route('/fakedata').get(invoiceController.fakedate);

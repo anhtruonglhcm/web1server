@@ -21,5 +21,5 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var userRouter = exports.userRouter = _express2.default.Router();
 userRouter.post('/signup', _user2.default.singup);
-userRouter.post('/signin', _user2.default.singin);
+userRouter.post('/login', _user2.default.singin);
 userRouter.post('/test', _passport2.default.authenticate('jwt', { session: false }), _user2.default.test);

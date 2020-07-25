@@ -16,7 +16,8 @@ exports.default = {
       item: _joi2.default.string().required(),
       price: _joi2.default.string().required(),
       qty: _joi2.default.number().integer().required(),
-      date: _joi2.default.date()
+      date: _joi2.default.date(),
+      client: _joi2.default.string().required()
     });
 
     var _Joi$validate = _joi2.default.validate(body, schema),
@@ -33,7 +34,8 @@ exports.default = {
       item: _joi2.default.string().optional(),
       price: _joi2.default.number().optional(),
       qty: _joi2.default.number().integer().optional(),
-      date: _joi2.default.optional()
+      date: _joi2.default.optional(),
+      client: _joi2.default.string().optional()
     });
 
     var _Joi$validate2 = _joi2.default.validate(body, schema),

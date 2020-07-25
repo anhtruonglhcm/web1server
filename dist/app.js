@@ -28,6 +28,8 @@ var _passportJwt = require('./api/middleware/passport-jwt');
 
 var _index = require('./api/index');
 
+var _uploadSingle = require('./api/middleware/upload-single');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 _dotenv2.default.config();
@@ -35,17 +37,22 @@ var app = (0, _express2.default)();
 var PORT = process.env.PORT || 3000;
 app.use(_express2.default.urlencoded({ extended: true }));
 app.use(_express2.default.json());
+app.use(_express2.default.static('uploads'));
 app.use((0, _morgan2.default)('dev'));
 app.use((0, _cors2.default)());
 app.use(_passport2.default.initialize());
 (0, _passportJwt.configureJWTStragety)();
 _mongoose2.default.Promise = global.Promise;
-_mongoose2.default.connect('mongodb://localhost/invoice', { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true }, function (err) {
+_mongoose2.default.connect('mongodb://localhost/invoice', { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true, useFindAndModify: false }, function (err) {
   if (err) {
     console.log('connect failed');
   } else {
     console.log('connect success');
   }
+});
+app.post('/upload', _uploadSingle.uploadSingle.any(), function (req, res) {
+  url = 'http://35.225.51.29:3000/' + req.files[0].firstName;
+  return res.json({ urls: url });
 });
 app.use('/api', _index.restRouter);
 app.use(function (req, res, next) {

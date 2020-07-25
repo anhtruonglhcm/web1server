@@ -1,5 +1,4 @@
 import { NOT_FOUND, OK, INTERNAL_SERVER_ERROR, BAD_REQUEST } from 'http-status-codes';
-import faker from 'faker';
 import invoiceService from './invoice.service';
 import Invoice from './invoice.model';
 
@@ -76,6 +75,7 @@ export default {
       if (error) {
         return res.status(BAD_REQUEST).json(error);
       }
+      console.log(value);
       const invoice = await Invoice.findByIdAndUpdate(req.params.id, value, { new: true });
       if (invoice) {
         return res.status(OK).json(invoice);
@@ -84,22 +84,5 @@ export default {
     } catch (err) {
       return res.status(INTERNAL_SERVER_ERROR).json(err);
     }
-  },
-  async fakedate(req, res, next) {
-    // eslint-disable-next-line no-plusplus
-    for (let i = 0; i < 96; i++) {
-      const invoice = new Invoice();
-      invoice.item = faker.commerce.productName();
-      invoice.price = faker.commerce.price();
-      invoice.qty = faker.random.number();
-      invoice.date = faker.date.future();
-      // eslint-disable-next-line consistent-return
-      invoice.save((err) => {
-        if (err) {
-          return next(err);
-        }
-      });
-    }
-    res.redirect('/');
-  },
+  }
 };
